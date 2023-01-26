@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid mt-5 pt-3">
+	<div class="card">
+	<h6 class="card-header font-weight-bold text-uppercase py-4 text-left">{{ student_details.first_Name }} {{ student_details.last_Name }}</h6>
+		<div class="container">
+		  <div class="row">
+		    <div class="col-md-5">
+		    	<div class="dropdown">
+	    			<button class="btn btn-info dropdown-toggle float-left" type="button" id="dropdownMenu3" data-toggle="dropdown"
+		    			aria-haspopup="true" aria-expanded="false">
+		    			{{ year }}
+		    		</button>
+
+					<div class="dropdown-menu" aria-labelledby="dropdownMenu3">
+	    				<h6 class="dropdown-header">Select Year</h6>
+	    					{% for year in years %}
+	    				<a data-toggle="tooltip" title="{{ year.academic_Year }}" class="dropdown-item" href="{% url 'view_grades_for' pk=student_details.id a_pk=year.id %}">{{ year.academic_Year }}</a>
+	    				</a>
+	    					{% endfor %}
+					</div>
+				</div>
+		    	</span></a>
+		    </div>
+		    <div class="col-md-3"><big>{{ year }}</big></div>
+		  </div>
+		</div>
+    <div class="card-body">
+    {% if grades %}
+	    <div id="table" class="table-editable">
+
+	      <table class="table table-bordered table-responsive-md table-striped text-center">
+	        <tr>
+	          <th class="text-center">Subject</th>
+              <th class="text-center">Q1</th>
+              <th class="text-center">Q2</th>
+              <th class="text-center">Q3</th>
+              <th class="text-center">Q4</th>
+              <th class="text-center">AVG</th>
+	        </tr>
+	        {% for grade in grades %}
+	        <tr>
+	          <td class="pt-3-half">
+	          		{{ grade.subject }}
+	          </td>
+              <td class="pt-3-half">
+                  {{ grade.q1_grade }}
+              </td>
+              <td class="pt-3-half">
+                  {{ grade.q2_grade }}
+              </td>
+              <td class="pt-3-half">
+                  {{ grade.q3_grade }}
+              </td>
+              <td class="pt-3-half">
+                  {{ grade.q4_grade }}
+              </td>
+              <td class="pt-3-half">
+                  {{ grade.average_grade }}
+              </td>
+	        </tr>
+	        {% endfor %}
+          {% else %}
+        <th class="text-center">No Grade Records Found</th>
+	      </table>
+	    </div>
+	  </div>
+    {% endif %}
+	</div>
+</div>
+{% endblock %}

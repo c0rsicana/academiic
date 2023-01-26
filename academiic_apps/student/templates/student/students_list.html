@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+{% if students_list %}
+  <h1>Students List</h1>
+      <div class="table-responsive">
+    <table id="studenttable" class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th>LRN</th>
+          <th>Name</th>
+          <th>Year Level</th>
+          <th>Section</th>
+          <th>Status:</th>
+          <th></th>
+          <th></th>
+          {% if user.is_superuser %}
+          <th></th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+
+    {% for Students in students_list %}
+        <tr class="clickable-row" data-href="{% url 'student_detail' Students.slug %}">
+            <td>{{ Students.LRN }}</td>
+            <td>{{ Students.first_Name }} {{ Students.last_Name }}</td>
+            <td>{{ Students.level }}</td>
+            <td>{{ Students.section }}</td>
+            <td>{{ Students.status }}</td>
+            <td><a class="btn btn-primary btn-sm" href="{% url 'view_grades' Students.pk %}">Grades</a></td>
+            <td><a class="btn btn-success btn-sm" href="{% url 'student_update' Students.slug %}">Update</a></td>
+            {% if user.is_superuser %}
+            <td><a class="btn btn-danger btn-sm" href="{% url 'student_delete' Students.slug %}">Delete</a></td>
+            {% endif %}
+
+        </tr>
+
+    {% endfor %}
+      </tbody>
+    </table>
+
+  {% else %}
+    <p>There are no Students in the database.</p>
+    <button onclick="window.history.back();" class="btn btn-warning" type="button">Go Back</button>
+  {% endif %}
+    <a class="btn btn-success" href="{% url 'add_student' %}">Add a Student</a>
+
+
+
+
+</div>
+{% endblock %}
+
+{% block morejs %}
+<script>
+   $('#studenttable').DataTable({
+       dom: 'Bfrtip',
+       buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+           ]
+    });
+</script>
+
+{% endblock morejs %}

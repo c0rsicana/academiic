@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1 class="my-4 text-center">Update Announcement</h1>
+  <form method="post" class="form-group">
+    {% csrf_token %}
+    <input type="hidden" name="_method" value="PUT">
+    <label for="title" class="form-control-label">Title:</label>
+    <input type="text" name="title" id="title" class="form-control" value="{{ announcement.title }}">
+    <br>
+    <label for="content" class="form-control-label">Content:</label>
+    <textarea name="content" id="content" class="form-control">{{ announcement.content }}</textarea>
+    <br>
+    <input type="submit" value="Update" class="btn btn-primary">
+  </form>
+{% endblock %}

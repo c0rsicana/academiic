@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Faculty List</title>
+</head>
+<body>
+{% block content %}
+  <h1>Faculty List</h1>
+  {% if faculty_list %}
+  <div class="table-responsive">
+    <table id="facultytable" class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th>Full Name:</th>
+          <th>Address:</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+
+    {% for Faculty in faculty_list %}
+        <tr class="clickable-row" data-href="{% url 'faculty_detail' Faculty.pk %}">
+            <td>{{ Faculty.user|title }}</td>
+            <td>{{ Faculty.address }}</td>
+            {% if user.is_superuser %}
+            <td><a class="btn btn-danger btn-sm"
+                   href="{% url 'faculty_delete' Faculty.pk %}">Delete</a></td>
+            {% else %}
+            <th></th>
+            {% endif %}
+        </tr>
+    {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p>There are no Faculty Staffs in the database.</p>
+  {% endif %}
+{% endblock content %}
+</body>
+</html>
+
+{% block morejs %}
+<script>
+   $('#facultytable').DataTable({
+    select: false,
+       dom: 'Bfrtip',
+       buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+           ]
+    });
+</script>
+
+{% endblock morejs %}

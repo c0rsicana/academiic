@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Quarter</title>
+</head>
+<body>
+{% extends "base.html" %}
+
+
+{% block content %}
+{% load crispy_forms_filters %}
+
+<form method="POST" enctype="multipart/form-data">
+    <!-- Security token -->
+    {% csrf_token %}
+  {{ form|crispy }}
+
+
+    <input class="btn btn-primary" type="submit" value="Confirm"/>
+    <button onclick="window.history.back();" class="btn btn-warning" type="button">Go Back to List</button>
+
+</form>
+
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,238 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+
+{% block head %}
+<head>
+    {% block bootstrap %}
+    {% load bootstrap4 %}
+    {# CSS BOOTSTRAP and javascript #}
+    {% bootstrap_css %}
+    {% endblock bootstrap %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome/all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/popup.css' %}">
+    <!-- Datatables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+    <!-- CUSTOM CSS #COMMENTED OUT FOR NOW
+    <link rel="stylesheet" href="{% static 'dist/css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/signup.css' %}">
+    -->
+    <link rel="stylesheet" href="{% static 'dist/css/submenu.css' %}">
+    <!-- Jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.min.js" integrity="sha512-ltwjKsDTo3hW/wV66ZaEkf2wOAFxmg7rWM76J8kOcYKLSKy44WBYO/BFaNNH3NGDS8BSz3meB9wtSnm41oL+pA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Carousel -->
+     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css"/>
+
+
+
+    <title>{% block title %}{{ Academiic }}{% endblock %}</title>
+{% endblock %}
+
+</head>
+<body>
+{% if user.is_authenticated %}
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark mb-4">
+  <!-- Brand -->
+  <a class="navbar-brand" href="/">Academiic</a>
+
+  <!-- Links -->
+  <ul class="navbar-nav">
+
+    <!-- Dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        <i class="fas fa-graduation-cap"></i> Students
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="{% url 'add_student'  %}">Add Students</a>
+        <a class="dropdown-item" href="{%  url 'view_all_students' %}">View All Active Students</a>
+        <a class="dropdown-item" href="{% url 'view_inactive' %}">View All Archived Student Records</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        <i class="fas fa-graduation-cap"></i> View Students by Level & Section
+      </a>
+      <div class="dropdown-menu">
+          {% for levels in levels %}
+        <div class="dropdown-submenu">
+            <a class="dropdown-item" href="#" {{ levels.slug }}>{{ levels }} &raquo;</a>
+            <div class="dropdown-menu">
+                {% for sections in sections %}
+                {% if sections.level_id == levels.pk %}
+                <a class="dropdown-item" href="/students/view_students/{{ levels.slug }}/{{ sections.section }}/">{{ sections }} &raquo;</a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+          {% endfor %}
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        <i class="fas fa-user-tie"></i> Faculties
+      </a>
+      <div class="dropdown-menu">
+        {% if user.faculty.id %}
+        <a class="dropdown-item" href="{% url 'profile' pk=user.faculty.id %}">My Profile</a>
+        {% else %}
+        <a class="dropdown-item" href="{% url 'add_faculty' %}">Setup Profile</a>
+        {% endif %}
+        <a class="dropdown-item" href="{% url 'view_faculty' %}">View Faculty Staff</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        <i class="fas fa-book"></i> Subjects & Grades
+      </a>
+      <div class="dropdown-menu">
+        {% if user.is_superuser %}
+        <a class="dropdown-item" href="{% url 'subjects:create_subjects' %}">Add/Edit Subjects</a>
+        <a class="dropdown-item" href="{% url 'subjects:list_subjects' %}">View Subjects</a>
+        <a class="dropdown-item" href="{% url 'add_gradebook' %}">Add Grades</a>
+        {% else %}
+        <a class="dropdown-item" href="{% url 'subjects:list_subjects' %}">View Subjects</a>
+        <a class="dropdown-item" href="{% url 'add_gradebook' %}">Add Grades</a>
+        {% endif %}
+      </div>
+    </li>
+        {% if user.is_superuser %}
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        <i class="fas fa-file-invoice-dollar"></i> Billing
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="{% url 'create_invoice' %}">Add Billing</a>
+        <a class="dropdown-item" href="{% url 'list_invoice' %}">View Billing</a>
+      </div>
+    </li>
+       {% else %}
+       {% endif %}
+       {% if user.is_superuser %}
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        <i class="fas fa-university"></i> Management
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="{% url 'list_academic_year' %}">Academic Year</a>
+        <a class="dropdown-item" href="{% url 'list_quarter' %}">Quarter</a>
+        <a class="dropdown-item" href="{% url 'add_section' %}">Sections</a>
+        <a class="dropdown-item" href="{% url 'approve_accounts' %}">Approve Faculty Accounts</a>
+        <a class="dropdown-item" href="{% url 'create_announcement' %}">Create Announcement</a>
+      </div>
+    </li>
+        {% else %}
+        {% endif %}
+  </ul>
+    {% if user.is_superuser %}
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item d-none d-sm-inline-block">
+        <a href="{% url 'active_year'  %}" class="nav-link">Academic Year: {{ active_year }}</a>
+    </li>
+    <li class="nav-item d-none d-sm-inline-block">
+        <a href="{% url 'active_year' %}" class="nav-link">Quarter: {{ active_quarter }}</a>
+    </li>
+    {% else %}
+    <ul class="navbar-nav ml-auto">
+    <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Academic Year: {{ active_year }}</a>
+    </li>
+    <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Quarter: {{ active_quarter }}</a>
+    </li>
+    {% endif %}
+      {% if user.is_authenticated %}
+    <li class="nav-item">
+        <a class="nav-link d-flex align-items-center" href="/logout"><i class="fas fa-sign-out-alt fa-lg"></i></a>
+    </li>
+      {% else %}
+    <li class="nav-item">
+        <a class="nav-link d-flex align-items-center" href="/login"><i class="fas fa-sign-in-alt">Login</i></a>
+    </li>
+      {% endif %}
+  </ul>
+</nav>
+{% endif %}
+<div class="container">
+{% block welcome %} {% endblock %}
+{% block messages %}
+    {% if messages %}
+{% for message in messages %}
+{% if messages %}
+    {% for msg in messages %}
+        <div class="alert text-center alert-{{msg.level_tag}} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{msg.message}}
+        </div>
+    {% endfor %}
+    {% endif %}
+{% endfor %}
+{% endif %}
+{% endblock %}
+{% block content %}
+{% endblock %}
+</div>
+{% block footer %} {% endblock %}
+<!-- REQUIRED SCRIPTS -->
+  <!-- DATATABLES SCRIPTS -->
+  <script src="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"></script>
+  <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+  <!-- SUBMENU SCRIPTS -->
+  <script src="{% static 'dist/js/submenu.js' %}"></script>
+  <!-- FORMSETS JS -->
+  <script src="{% static 'dist/js/jquery.formset.js' %}"></script>
+  <!-- POPUP JS -->
+  <script src="{% static 'dist/js/popup.js' %}"></script>
+
+
+
+
+  <script>
+    (function ($) {
+      $('.clickable-row').css('cursor', 'pointer');
+      $(".clickable-row").click(function () {
+        window.location = $(this).data("href");
+      });
+    })(jQuery)
+
+  </script>
+
+  {% block morejs %}
+
+  {% endblock morejs %}
+
+  {% block dropdown %}
+
+  {% endblock dropdown %}
+
+  {% block formsetadd %}
+
+  {% endblock formsetadd %}
+
+  {% block popup %}
+
+  {% endblock popup %}
+
+
+</body>
+</html>

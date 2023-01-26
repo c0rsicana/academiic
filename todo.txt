@@ -1,0 +1,17 @@
+--todo--   
+[subjects module] -Add subjects under section and level - **done**
+
+[grading module]  - List Sections that has subjects that a faculty handle
+		  - Filter subjects with user.id **done**
+		  - list all student under that subject 
+		  - mix form with grade field beside that list
+
+[billing module]  - Implement a checkbox for selection of student
+
+section detail -> list students and subjects with formsets (query with faculty=user.id
+
+
+
+
+
+

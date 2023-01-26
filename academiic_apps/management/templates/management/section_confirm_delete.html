@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{% endblock title %}
+
+
+{% block content %}
+
+<form action="" method="POST">
+  {% csrf_token %}
+
+  <div class="alert-danger">
+    <p>Are you sure you want to delete: "{{ object }}"?</p>
+  </div>
+  <div class="alert-danger">
+    <p>!!This action will delete all student records in this section!!</p>
+  </div>
+
+  <input type="submit" class="btn btn-primary" value="Confirm">
+  <button onclick="window.history.back();" class="btn btn-warning" type="button">Go Back to List</button>
+
+</form>
+
+
+{% endblock content %}

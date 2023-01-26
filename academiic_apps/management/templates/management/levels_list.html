@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card bg-dark text-dark mx-auto" style="width: 18rem;">
+  <div class="card-body bg-dark text-white">
+    <h5 class="card-title">Year Levels:</h5>
+  </div>
+  <ul class="list-group list-group-flush">
+      {% for level in levels %}
+          <a href="{% url 'level_detail' slug=level.slug %}" class="list-group-item text-secondary">{{ level }}</a>
+      {% endfor %}
+  </ul>
+</div>
+{% endblock %}

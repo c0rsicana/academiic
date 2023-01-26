@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %} Grade Records for {{ students.first_Name }} {{ students.last_Name }} {% endblock %}
+
+{% block content %}
+  <h3>Grade Records for {{ students.first_Name }} {{ students.last_Name }}</h3>
+      <div class="table-responsive mb-2">
+    <table id="gradetable" class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th>Subject</th>
+          <th>Quarter 1</th>
+          <th>Quarter 2</th>
+          <th>Quarter 3</th>
+          <th>Quarter 4</th>
+
+        </tr>
+      </thead>
+      <tbody>
+
+    {% for gradebook in students.student_grade.all %}
+          <tr class="">
+            <td>{{ gradebook.subject  }}</td>
+            <td>{{ gradebook.q1_grade }}</td>
+            <td>{{ gradebook.q2_grade }}</td>
+            <td>{{ gradebook.q3_grade }}</td>
+            <td>{{ gradebook.q4_grade }}</td>
+          </tr>
+
+    {% endfor %}
+      </tbody>
+    </table>
+      </div>
+
+{% endblock %}
+
+{% block morejs %}
+<script>
+   $('#leveltable').DataTable({
+       dom: 'Bfrtip',
+       buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+           ]
+    });
+</script>
+
+{% endblock morejs %}

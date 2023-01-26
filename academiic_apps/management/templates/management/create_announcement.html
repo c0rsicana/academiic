@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1 class="my-4 text-center">Create Announcement</h1>
+  <form method="post" class="form-group">
+    {% csrf_token %}
+    <label for="title" class="form-control-label">Title:</label>
+    <input type="text" name="title" id="title" class="form-control">
+    <br>
+    <label for="content" class="form-control-label">Content:</label>
+    <textarea name="content" id="content" class="form-control"></textarea>
+    <br>
+    <input type="submit" value="Create" class="btn btn-primary">
+  </form>
+{% endblock %}

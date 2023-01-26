@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <form method="post">{% csrf_token %}
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-xs-12">
+                <div class="card">
+                    <h6>Add Subject</h6>
+                    <div class="form-group">
+                        <span class="faded">Subject Name</span> {{ form.name }}
+                    </div>
+                </div>
+                <div class="card">
+                    <h6>Assign Teacher:</h6>
+                    <div class="form-group">
+                        <span class="faded">Teacher</span> {{ form.faculty }}
+                    </div>
+                </div>
+                <div class="empty-box">
+                    <input type="submit" name="submit" class="btn btn-primary" value="Save" />
+                </div>
+            </div>
+            {% url 'add_subject' pk=section as add_course %}
+            <div class="col-md-4 col-xs-12">
+                <div class="card bg-light">
+                    <h6>Level:</h6>
+                    <div class="form-group text-dark">
+                        <span class="faded text-primary">{{ current_section.level }}</span>
+                    </div>
+                    <h6>Section:</h6>
+                    <div class="form-group">
+                        <span class="faded text-primary">{{ form.section }}</span>
+                    </div>
+                    <h6>Academic Year:</h6>
+                    <div class="form-group">
+                        <span class="faded text-primary">{{ form.academic_Year }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+$('#form').submit(function() {
+    $('[disabled]').each(function(i) {
+        var d_name = $(this).attr("name");
+        var d_val = $(this).val();
+        $(this).attr("disabled", false);
+    });
+    return true;
+});
+
+$('#form').submit();
+</script>
+{% endblock %}

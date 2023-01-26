@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card bg-dark text-dark mx-auto" style="width: 45rem;">
+  <div class="card-body bg-dark text-white">
+    <h5 class="card-title">{{ level }}</h5>
+  </div>
+  <table class="table table-sm table-dark">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Section Name:</th>
+      <th scope="col">Students Enrolled:</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for section in sections %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td><a href="{% url 'section_detail' pk=section.pk %}" class="text-light">{{ section.section }}</a></td>
+      <td>{{ section.students_set.count }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

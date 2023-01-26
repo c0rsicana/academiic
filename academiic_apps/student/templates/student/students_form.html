@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+{% load crispy_forms_filters %}
+{% load widget_tweaks %}
+
+
+<div class="container-fluid mt-4">
+  <div class="card card-body">
+    <h2 class="card-title text-center mb-4">Add a Student</h2>
+    <form method="POST" id="studentForm" data-sections-url="{% url 'ajax_load_sections' %}" novalidate>
+      {% csrf_token %}
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.LRN|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.first_Name|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.middle_Name|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.last_Name|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.suffix_Name|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.address|as_crispy_field }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.birthdate|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.admission_Date|as_crispy_field }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          {{ form.level|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.section|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.gender|as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6">
+          {{ form.status|as_crispy_field }}
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary">Confirm</button>
+        <button type="button" class="btn btn-warning" onclick="window.history.back();">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+{% endblock content %}
+
+{% block dropdown %}
+<script>
+    $("#id_level").change(function () {
+      var url = $("#studentForm").attr("data-sections-url");  // get the url of the `load_section` view
+      var levelId = $(this).val();  // get the selected level ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-section/)
+        data: {
+          'level': levelId       // add the level id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_section").html(data);  // replace the contents of the section input with the data that came from the server
+        }
+      });
+
+    });
+  </script>
+{% endblock dropdown %}

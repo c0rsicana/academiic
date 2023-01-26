@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block content %}
+<div class="row">
+  <div class="col-sm-4">
+    <h3>{{ object }} </h3>
+    <h5>{{ object.class_for }} </h5>
+    <hr>
+    <div>
+      <h4>Expected Balance: {{ object.balance | intcomma }}</h4>
+    </div>
+  </div>
+  <div class="col-sm-8">
+    <table class="table table-sm table-bordered">
+      Invoice Breakdown</br>
+      <thead class="thead-light">
+        <tr>
+          <th>Description</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <td>Books:</td>
+          <td>{{ object.books | intcomma}}</td>
+        </tr>
+        <tr>
+          <td>Tuition Fee:</td>
+          <td>{{ object.tuition | intcomma}}</td>
+        </tr>
+        <tr>
+          <td>Total Amount Payable</td>
+          <td>{{ object.amount_payable | intcomma}}</td>
+        </tr>
+        <tr>
+          <td>Total Amount Paid</td>
+          <td>{{ object.amount_paid| intcomma}}</td>
+        </tr>
+
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<hr>
+
+<h5>Payment History</h5>
+<table class="table table-bordered table-sm">
+  <thead class="thead-light">
+    <tr>
+      <th>Transaction Number</th>
+      <th>Amount Paid</th>
+      <th>Date Paid</th>
+      <th>Comment Paid</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for receipt in receipts %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ receipt.amount_paid}}</td>
+      <td>{{ receipt.date_paid}}</td>
+      <td>{{ receipt.comment}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+    <a href="{% url 'list_invoice' %}" class="btn btn-warning" role="button">Go Back to List</a>
+    <a href="{% url 'update_invoice' object.id %}" role="button" class="btn btn-primary">Update</a>
+
+{% endblock content %}

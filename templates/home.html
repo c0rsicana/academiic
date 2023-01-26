@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+        <div class="jumbotron">
+        <center><h1>Academiic Homepage</h1></center>
+        </div>
+    <div class="accordion" id="announcements">
+  {% for announcement in announcements %}
+    <div class="card bg-dark border-light">
+      <div class="card-header border-light" id="heading{{ announcement.id }}">
+        <h5 class="mb-0">
+          <button class="btn btn-link text-white" type="button" data-toggle="collapse" data-target="#collapse{{ announcement.id }}" aria-expanded="true" aria-controls="collapse{{ announcement.id }}">
+            {{ announcement.title }}
+          </button>
+          {% if user.is_staff %}
+            <a href="{% url 'delete_announcement' announcement.pk %}" class="btn btn-danger float-right mr-2">delete</a>
+            <a href="{% url 'update_announcement' announcement.pk %}" class="btn btn-primary float-right mr-2">update</a>
+            <a href="{% url 'create_announcement' %}" class="btn btn-success float-right mr-2">new</a>
+          {% endif %}
+        </h5>
+      </div>
+
+      <div id="collapse{{ announcement.id }}" class="collapse" aria-labelledby="heading{{ announcement.id }}" data-parent="#announcements">
+        <div class="card-body text-white text-xl-left">
+            <blockquote class="blockquote">
+          <p class="mb-0">{{ announcement.content }}</p>
+            </blockquote>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+<br>
+</div>
+{% endblock %}
+
+
+

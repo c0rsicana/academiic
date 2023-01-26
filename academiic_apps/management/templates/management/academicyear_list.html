@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Academic Year List</title>
+</head>
+<body>
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}invoices{% endblock title %}
+
+
+{% block content %}
+  <h1>Academic Year List</h1>
+  {% if academicyear_list %}
+  <div class="table-responsive">
+    <table id="Academic Year" class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th>Academic Year</th>
+          <th>Active</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for AcademicYear in academicyear_list %}
+          <tr class='clickable-row' data-href="#">
+            <td>{{ AcademicYear.academic_Year }}</td>
+              {% if AcademicYear.active == True %}
+                  <td><i class="fas fa-check-square" style="color: #1e7e34"></i></td>
+                  {% else %}
+                  <td><i class="fas fa-times-circle" style="color: red"></i></td>
+              {% endif %}
+              <td><a class="btn btn-warning btn-sm" href="{% url 'academic_year_update' AcademicYear.id %}">Update</a></td>
+              <td><a class="btn btn-danger btn-sm" href="{% url 'academic_year_delete' AcademicYear.id %}">Delete</a></td>
+          </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+    {% else %}
+    <p>Academic Year undefined.</p>
+  {% endif %}
+    <td><a class="btn btn-success btn-sm"
+                href="{% url 'add_academic_year' %}">Add Academic Year</a></td>
+{% endblock content %}
+
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accounts for Verification</title>
+</head>
+{% block content %}
+  <h1></h1>
+    <form method="post">
+    {% csrf_token %}
+  {% if unverified_users %}
+  <div class="table-responsive">
+  <h5>Pending Accounts</h5>
+    <table id="accountstable" class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th>Name:</th>
+          <th>Email:</th>
+          <th>Approve:</th>
+        </tr>
+      </thead>
+      <tbody>
+
+    {% for user in unverified_users %}
+        <tr class="clickable-row" data-href="#">
+            <td>{{ user.first_name }} {{ user.last_name }}</td>
+            <td>{{ user.email }}</td>
+            <td><label>
+                <input type="checkbox" name="user_ids" value="{{ user.id }}">
+            </label></td>
+        </tr>
+    {% endfor %}
+
+      </tbody>
+    </table>
+  <button class="btn btn-success" type="submit">Verify</button>
+  </div>
+  {% else %}
+    <p class="text-center">No Unverified Accounts.</p>
+  {% endif %}
+{% endblock content %}
+</form>
+</html>
+
+{% block morejs %}
+<script>
+   $('#accountstable').DataTable({
+    select: false,
+       dom: 'Bfrtip',
+       buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+           ]
+    });
+</script>
+
+{% endblock morejs %}

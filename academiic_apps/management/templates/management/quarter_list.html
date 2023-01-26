@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Academic Year List</title>
+</head>
+<body>
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Quarter List{% endblock title %}
+
+
+{% block content %}
+  <h1>Quarter List</h1>
+  {% if quarter_list %}
+  <div class="table-responsive">
+    <table id="Academic Year" class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th>Quarter</th>
+          <th>Active</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for Quarter in quarter_list %}
+          <tr class='clickable-row' data-href="#">
+            <td>{{ Quarter.quarter }}</td>
+              {% if Quarter.active == True %}
+                  <td><i class="fas fa-check-square" style="color: green"></i></td>
+                  {% else %}
+                  <td><i class="fas fa-times-circle" style="color: red"></i></td>
+              {% endif %}
+              <td><a class="btn btn-warning btn-sm" href="{% url 'quarter_update' Quarter.id %}">Update</a></td>
+              <td><a class="btn btn-danger btn-sm" href="{% url 'quarter_delete' Quarter.id %}">Delete</a></td>
+          </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+    {% else %}
+    <p>Quarter Undefined.</p>
+  {% endif %}
+    <td><a class="btn btn-success btn-sm"
+                href="{% url 'add_quarter' %}">Add Quarter</a></td>
+{% endblock content %}
+
+
+</body>
+</html>

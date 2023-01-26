@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid mt-5">
+
+	<!-- Editable table -->
+	<div class="card">
+	<h6 class="card-header text-center font-weight-bold text-uppercase py-4">{{ active_year }}</h6>
+		<div class="container">
+		  <div class="row">
+		    <div class="col-md-3"><button type="button" class="btn btn-primary">Save</button></div>
+		    <div class="col-md-3"><i data-toggle="tooltip" title="click on the dropdown button to select a course">No Subject Selected</i></div>
+		    <div class="col-md-4">
+		    	<div class="dropdown">
+	    			<button class="btn btn-primary dropdown-toggle float-right" type="button" id="dropdownMenu3" 		data-toggle="dropdown"
+		    			aria-haspopup="true" aria-expanded="false">
+		    			Select Subject
+		    		</button>
+
+					<div class="dropdown-menu" aria-labelledby="dropdownMenu3">
+	    				<h6 class="dropdown-header">Select Subject</h6>
+	    				{% for subject in subjects %}
+	    				<a data-toggle="tooltip" title="{{ subject.name }}" class="dropdown-item" href="{% url 'add_gradebook_for' subject.id %}">{{ subject.name }} ({{ subject.section.level }}: {{ subject.section }})</a>
+	    				{% empty %}
+		    				<h6 data-toggle="tooltip" class="text-center" title="No Subject assigned to:"{{ subject.faculty }}>
+			    					No subject assigned to this Faculty
+		    				</h6>
+	    				{% endfor %}
+					</div>
+
+				</div>
+			</div>
+		  </div>
+		</div>
+    </div>
+</div>
+{% endblock %}

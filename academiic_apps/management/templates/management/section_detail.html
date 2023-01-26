@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card bg-dark text-dark mx-auto" style="width: 45rem;">
+  <div class="card-body bg-dark text-white">
+    <h5 class="card-title text-center">{{ section.level }}</h5>
+    <h6 class="card-title text-center">{{ section.section }}</h6>
+  </div>
+    {% if subjects %}
+  <table class="table table-sm table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Subject Name:</th>
+      <th scope="col">Teacher:</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for subject in subjects %}
+    <tr>
+      <td> {{ subject.name }}</td>
+      <td> {{ subject.faculty }}</td>
+      <td><a href="{% url 'subjects:edit_subject' pk=subject.pk %}"><i class="fas fa-edit"></i></a>
+        <span class="with-popup">
+            <div class="popup p-delete">
+                <p>Confirm Delete</p>
+                <a href="{% url 'subjects:delete_subject' pk=subject.pk %}">Delete</a>
+            </div>
+        <a title="Delete" class="label sm-label"><i class="fas fa-minus-circle"></i></a>
+        </span>
+        </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="h4 text-xl-center text-light">No Subjects Found</p>
+{% endif %}
+<div class="text-left">
+  <a href="{% url 'subjects:create_subjects' %}" class="btn btn-primary">Add Subject</a>
+</div>
+</div>
+{% endblock %}
+
+{#{% url 'subject_add' section.pk %}#}

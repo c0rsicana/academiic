@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+    <div class="container">
+    <form method="post">
+        {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3 main">
+            <div class="col-md-12">
+               <div class="row">
+                    <div class="col-md-8 text-xs-right">
+                        <h4 style="color: #494646;"><strong>Billing</strong></h4>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12 text-xs-center">
+                        <h4>Invoice for:</h4>
+                        <h5>{{ form.year_level | add_class:"form-control form-control-sm" }}</h5>
+                    </div>
+                </div>
+                <br />
+                <div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><h5>Description</h5></th>
+                                <th><h5>Amount</h5></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-md-9"><h6>Tuition Fee:</h6></td>
+                                <td>{{ form.tuition | add_class:"form-control form-control-sm" }}</td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-9"><h6>Books:</h6></td>
+                                <td>{{ form.books | add_class:"form-control form-control-sm" }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input class="btn btn-primary" type="submit" value="Confirm"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+
+<style>
+    .main {
+        background: #ffffff;
+        border-bottom: 15px solid #1E1F23;
+        border-top: 15px solid #1E1F23;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        padding: 40px 30px !important;
+        position: relative;
+        box-shadow: 0 1px 21px #808080;
+        font-size:10px;
+    }
+
+    .main thead {
+		background: #1E1F23;
+        color: #fff;
+		}
+</style>
+{% endblock %}

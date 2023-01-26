@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid mt-5">
+
+	<!-- Editable table -->
+	<div class="card">
+	<h6 class="card-header text-center font-weight-bold text-uppercase py-4">{{ student_details.first_Name }} {{ student_details.last_Name }}</h6>
+		<div class="container">
+		  <div class="row">
+		    <div class="col-md-4">
+		    	<div class="dropdown">
+	    			<button class="btn btn-primary dropdown-toggle float-left" type="button" id="dropdownMenu3" 		data-toggle="dropdown"
+		    			aria-haspopup="true" aria-expanded="false">
+		    			Select School Year
+		    		</button>
+
+					<div class="dropdown-menu" aria-labelledby="dropdownMenu3">
+	    				<h6 class="dropdown-header">Select School Year</h6>
+	    				{% for year in years %}
+	    				<a data-toggle="tooltip" title="{{ year.academic_Year }}" class="dropdown-item" href="{% url 'view_grades_for' pk=student_details.id a_pk=year.id %}">{{ year.academic_Year }}</a>
+	    				{% endfor %}
+					</div>
+
+				</div>
+			</div>
+		  </div>
+		</div>
+    </div>
+</div>
+{% endblock %}

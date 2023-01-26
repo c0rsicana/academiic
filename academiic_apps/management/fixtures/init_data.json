@@ -1,0 +1,66 @@
+[
+  {
+    "model": "management.AcademicYear",
+    "pk": 1,
+    "fields": {
+      "academic_Year": "2022-2023",
+      "active": 1
+    }
+  },
+  {
+    "model": "management.Quarter",
+    "pk": 1,
+    "fields": {
+      "quarter": "1ST QUARTER",
+      "active": 1
+    }
+  },
+  {
+    "model": "management.Level",
+    "pk": 1,
+    "fields": {
+      "level": "Grade 7",
+      "slug": "grade-7"
+    }
+  },
+  {
+    "model": "management.Level",
+    "pk": 2,
+    "fields": {
+      "level": "Grade 8",
+      "slug": "grade-8"
+    }
+  },
+  {
+    "model": "management.Level",
+    "pk": 3,
+    "fields": {
+      "level": "Grade 9",
+      "slug": "grade-9"
+    }
+  },
+  {
+    "model": "management.Level",
+    "pk": 4,
+    "fields": {
+      "level": "Grade 10",
+      "slug": "grade-10"
+    }
+  },
+  {
+    "model": "management.Level",
+    "pk": 5,
+    "fields": {
+      "level": "JUNIOR",
+      "slug": "junior"
+    }
+  },
+  {
+    "model": "management.Level",
+    "pk": 6,
+    "fields": {
+      "level": "SENIOR",
+      "slug": "senior"
+    }
+  }
+]

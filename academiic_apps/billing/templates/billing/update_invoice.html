@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+
+{% block title %}
+
+{% if object %}
+Update invoice {{ object }}
+{% else %}
+Add new invoice
+{% endif %}
+
+{% endblock title %}
+
+{% block content %}
+<form method="POST">
+  {% csrf_token %}
+<div class="row">
+  <div class="col-sm-4">
+    <h3>{{ object }} </h3>
+    <hr>
+  </div>
+    <div class="col-sm-6">
+      {% for field in form %}
+      <div class="form-group row">
+        <label class="col col-form-label" for="{{ field.auto_id }}">
+          <strong>{{ field.label }}</strong>
+          {% for error in field.errors %}
+          <small id="{{ field.auto_id }}" class="text-danger">{{ error }}</small>
+          {% endfor %}
+        <div class="col-sm-8">
+          {{ field | add_class:"form-control"}}
+          {% if field.help_text %}
+          <small>{{ field.help_text|safe }}</small>
+          {% endif %}
+        </div>
+        </label>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if object %}
+    <h4>RECEIPTS</h4>
+    <table class="table table-sm">
+      {{ receipts.management_form }}
+      <thead class="thead-light">
+        <tr>
+          <th>Amount Paid</th>
+          <th>Date Paid</th>
+          <th>Comment</th>
+          <th><i class="fa fa-trash"></i></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for receipt in receipts %}
+        {% for hidden in receipt.hidden_fields %}
+        {{ hidden }}
+        {% endfor %}
+        <tr>
+          {% for field in receipt.visible_fields %}
+          <td>{{ field | add_class:"form-control form-control-sm"}}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  {% endif %}
+
+  {% if object %}
+  <input type="submit" class="btn btn-primary" value="Update Record">
+  {% else %}
+  <input type="submit" class="btn btn-primary" value="Add new invoice">
+  {% endif %}
+</form>
+{% endblock content %}
